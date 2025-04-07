@@ -22,7 +22,8 @@ public class WebSecurityConfig {
                 .requestMatchers(
                     "/auth/**", 
                 "/login.html", 
-                "/signup.html", 
+                "/signup.html",
+                "/", 
                 "/static/**", 
                 "/css/**", 
                 "/js/**", 
