@@ -5,16 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <div class="container">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <input type="text" id="accountNumber" placeholder="Account Number" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="/signup.html">Sign up</a></p>
+    <div class="split-container">
+        <div class="left-side">
+          <img src="images/background.png" alt="Endless Vault" />
+        </div>
+        <div class="right-side">
+          <div class="form-wrapper">
+            <h2>Endless Vault</h2>
+            <form id="loginForm">
+              <div class="form-field">
+                <label for="accountNumber">Account Number</label>
+                <input type="text" id="accountNumber" placeholder="Enter account number" required />
+              </div>
+              <div class="form-field">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password" required />
+              </div>
+              <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="/signup.html">Sign up</a></p>
+          </div>
+        </div>
     </div>
 
     <script>
@@ -31,10 +45,21 @@
             });
 
             if (response.ok) {
-                window.location.href = "/homepage.html";
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful!',
+                    text: 'Welcome back!',
+                }).then(() => {
+                    window.location.href = "/homepage.html";
+                });
             } else {
-                alert("Invalid credentials");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Invalid credentials',
+                });
             }
+
         });
     </script>
 </body>
