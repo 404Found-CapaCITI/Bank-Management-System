@@ -1,12 +1,26 @@
 package com.bank.bank_management_system.models;
 
-import jakarta.persistence.*;
-import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import com.bank.bank_management_system.exception.InsufficientBalanceException;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
 
 @Data
 @Entity
@@ -14,29 +28,36 @@ import com.bank.bank_management_system.exception.InsufficientBalanceException;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "account_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Account {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private String accountNumber;
-    private double balance;
-    
+
+    @Column(unique = true)
+    private String accountNumber; 
+
+    private double balance; 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
-    
+    private User user; 
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Transaction> transactions = new ArrayList<>();
-    
+    private List<Transaction> transactions = new ArrayList<>(); 
+
+
     public abstract String getAccountType();
+
     
     public void deposit(double amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("Deposit amount must be positive");
         }
         this.balance += amount;
+        this.transactions.add(new Transaction("DEPOSIT", amount, "Deposit to account", this));
     }
-    
+
+
     public void withdraw(double amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("Withdrawal amount must be positive");
@@ -45,45 +66,6 @@ public abstract class Account {
             throw new InsufficientBalanceException("Insufficient balance for withdrawal");
         }
         this.balance -= amount;
-    }
-
-    public Long getId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-}
-
-@Entity
-@DiscriminatorValue("SAVINGS")
-class SavingsAccount extends Account {
-    @Override
-    public String getAccountType() {
-        return "SAVINGS";
-    }
-}
-
-@Entity
-@DiscriminatorValue("CHECKING")
-class CheckingAccount extends Account {
-    @Override
-    public String getAccountType() {
-        return "CHECKING";
-    }
-}
-
-@Entity
-@DiscriminatorValue("BUSINESS")
-class BusinessAccount extends Account {
-    @Override
-    public String getAccountType() {
-        return "BUSINESS";
-    }
-}
-
-@Entity
-@DiscriminatorValue("INVESTMENT")
-class InvestmentAccount extends Account {
-    @Override
-    public String getAccountType() {
-        return "INVESTMENT";
+        this.transactions.add(new Transaction("WITHDRAWAL", amount, "Withdrawal from account", this));
     }
 }
