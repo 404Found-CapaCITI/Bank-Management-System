@@ -67,10 +67,10 @@ You can access the live app here:
 
 ## 👨🏽‍💻 Contributing Team
 
-* Pelma M. - @1632Pelma
-* Isabella M. - @Isamonyeseala
-* Mpho I. – @MphoItumeleng
-* Nosipho M. - @Nosipho9
+* [Pelma M.](https://github.com/1632Pelma)
+* [Isabella M.](https://github.com/Isamonyeseala)
+* [Mpho I.](https://github.com/MphoItumeleng)
+* [Nosipho M.](https://github.com/Nosipho9)
 
 ## 📝 Future Improvements
 
