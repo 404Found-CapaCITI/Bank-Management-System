@@ -1,14 +1,13 @@
-package com.bank.bank_management_system.service;
+package com.bank.bank_management_system.services;
 
-import com.bank.bankmanagementsystem.dto.TransactionDto;
-import com.bank.bankmanagementsystem.exception.ResourceNotFoundException;
-import com.bank.bankmanagementsystem.model.Account;
-import com.bank.bankmanagementsystem.model.Transaction;
-import com.bank.bankmanagementsystem.repository.AccountRepository;
-import com.bank.bankmanagementsystem.repository.TransactionRepository;
+import com.bank.bank_management_system.dto.TransactionDto;
+import com.bank.bank_management_system.exception.ResourceNotFoundException;
+import com.bank.bank_management_system.models.Account;
+import com.bank.bank_management_system.models.Transaction;
+import com.bank.bank_management_system.repositories.*;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,13 +28,13 @@ public class TransactionService {
     public TransactionDto createTransaction(Long accountId, String type, double amount, String description) {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found with id: " + accountId));
-        
+
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
         transaction.setType(type);
         transaction.setDescription(description);
         transaction.setAccount(account);
-        
+
         Transaction savedTransaction = transactionRepository.save(transaction);
         return mapToDto(savedTransaction);
     }

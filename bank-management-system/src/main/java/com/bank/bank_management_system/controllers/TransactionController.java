@@ -1,7 +1,7 @@
-package com.bank.bank_management_system.controller;
+package com.bank.bank_management_system.controllers;
 
 import com.bank.bank_management_system.dto.*;
-import com.bank.bank_management_system.service.*;
+import com.bank.bank_management_system.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

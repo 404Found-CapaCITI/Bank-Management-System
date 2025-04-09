@@ -1,13 +1,12 @@
-package com.bank.bank_management_system.service;
+package com.bank.bank_management_system.services;
 
 import com.bank.bank_management_system.dto.*;
 import com.bank.bank_management_system.exception.*;
-import com.bank.bank_management_system.repository.*;
-import com.bank.bank_management_system.model.*;
 
+import com.bank.bank_management_system.models.*;
+import com.bank.bank_management_system.repositories.AccountRepository;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;

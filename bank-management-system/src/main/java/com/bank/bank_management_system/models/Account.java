@@ -1,4 +1,4 @@
-package com.bank.bank_management_system.model;
+package com.bank.bank_management_system.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -45,6 +45,10 @@ public abstract class Account {
             throw new InsufficientBalanceException("Insufficient balance for withdrawal");
         }
         this.balance -= amount;
+    }
+
+    public Long getId() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
 
