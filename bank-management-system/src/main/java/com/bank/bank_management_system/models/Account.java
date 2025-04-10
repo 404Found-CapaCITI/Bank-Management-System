@@ -28,44 +28,43 @@ import lombok.Data;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "account_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Account {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
-    private String accountNumber; 
+    private String accountNumber;
 
-    private double balance; 
+    private double balance;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user; 
+    private User user;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Transaction> transactions = new ArrayList<>(); 
-
+    private List<Transaction> transactions = new ArrayList<>();
 
     public abstract String getAccountType();
 
-    
     public void deposit(double amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Deposit amount must be positive");
-        }
+        if (amount <= 0) throw new IllegalArgumentException("Deposit amount must be positive");
         this.balance += amount;
         this.transactions.add(new Transaction("DEPOSIT", amount, "Deposit to account", this));
     }
 
-
     public void withdraw(double amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Withdrawal amount must be positive");
-        }
-        if (amount > balance) {
-            throw new InsufficientBalanceException("Insufficient balance for withdrawal");
-        }
+        if (amount <= 0) throw new IllegalArgumentException("Withdrawal amount must be positive");
+        if (amount > balance) throw new InsufficientBalanceException("Insufficient balance");
         this.balance -= amount;
         this.transactions.add(new Transaction("WITHDRAWAL", amount, "Withdrawal from account", this));
+    }
+
+    public void transfer(Account recipient, double amount) {
+        if (amount <= 0) throw new IllegalArgumentException("Transfer amount must be positive");
+        if (amount > balance) throw new InsufficientBalanceException("Insufficient balance");
+        this.balance -= amount;
+        recipient.balance += amount;
+        this.transactions.add(new Transaction("TRANSFER_OUT", amount, "Transfer to " + recipient.getAccountNumber(), this));
+        recipient.transactions.add(new Transaction("TRANSFER_IN", amount, "Transfer from " + this.getAccountNumber(), recipient));
     }
 }

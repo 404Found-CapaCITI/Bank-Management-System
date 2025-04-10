@@ -1,32 +1,26 @@
 package com.bank.bank_management_system.controllers;
 
-import com.bank.bank_management_system.dto.*;
-import com.bank.bank_management_system.services.*;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/transactions")
-@RequiredArgsConstructor
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.bank.bank_management_system.models.Transaction;
+import com.bank.bank_management_system.services.TransactionService;
+
+@Controller
 public class TransactionController {
-    private final TransactionService transactionService;
 
-    @GetMapping("/account/{accountId}")
-    public ResponseEntity<List<TransactionDto>> getAccountTransactions(@PathVariable Long accountId) {
-        List<TransactionDto> transactions = transactionService.getAccountTransactions(accountId);
-        return ResponseEntity.ok(transactions);
-    }
+    @Autowired
+    private TransactionService transactionService;
 
-    @PostMapping
-    public ResponseEntity<TransactionDto> createTransaction(
-            @RequestParam Long accountId,
-            @RequestParam String type,
-            @RequestParam double amount,
-            @RequestParam(required = false) String description) {
-        TransactionDto transactionDto = transactionService.createTransaction(accountId, type, amount, description);
-        return ResponseEntity.ok(transactionDto);
+    @GetMapping("/history")
+    public String showTransactionHistory(@RequestParam Long accountId, Model model) {
+        List<Transaction> transactions = transactionService.getAccountTransactions(accountId);
+        model.addAttribute("transactions", transactions);
+        return "history"; // Separate history template or modal logic
     }
 }

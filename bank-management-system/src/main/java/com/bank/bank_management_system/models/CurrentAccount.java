@@ -4,18 +4,19 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("INVESTMENT")
-public class InvestmentAccount extends Account {
-    public InvestmentAccount() {}
+@DiscriminatorValue("CURRENT")
+public class CurrentAccount extends Account {
+    public CurrentAccount() {
+    }
 
-    public InvestmentAccount(User user, double initialBalance) {
+    public CurrentAccount(User user, double initialBalance) {
         this.setUser(user);
         this.setBalance(initialBalance);
-        this.setAccountNumber(User.generateAccountNumber());
+        this.setAccountNumber(user.getAccountNumber());
     }
 
     @Override
     public String getAccountType() {
-        return "INVESTMENT";
+        return "CURRENT";
     }
 }
