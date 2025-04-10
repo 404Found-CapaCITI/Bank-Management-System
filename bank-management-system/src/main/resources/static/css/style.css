@@ -1,5 +1,4 @@
-    <style>
-        :root {
+:root {
             --primary-color: #3a0ca3;
             --secondary-color: #4361ee;
             --accent-color: #4cc9f0;
@@ -585,4 +584,3 @@
             stroke: currentColor;
             fill: currentColor;
         }
-    </style>
