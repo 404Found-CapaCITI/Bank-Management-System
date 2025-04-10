@@ -1,81 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
-    <div class="split-container">
-        <div class="left-side">
-          <img src="images/background.gif" alt="Endless Vault" />
-        </div>
-        <div class="right-side">
-          <div class="form-wrapper">
-            <h2>Create Your Account</h2>
-            <form id="signupForm">
-              <div class="form-field">
-                <label for="name">Name</label>
-                <input type="text" id="name" placeholder="Enter your name" required />
-              </div>
-              <div class="form-field">
-                <label for="surname">Surname</label>
-                <input type="text" id="surname" placeholder="Enter your surname" required />
-              </div>
-              <div class="form-field">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Enter your email" required />
-              </div>
-              <div class="form-field">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter password" required />
-              </div>
-              <div class="form-field">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" placeholder="Re-enter password" required />
-              </div>
-              <button type="submit">Sign Up</button>
-            </form>
-            <p>Already have an account? <a href="/login.html">Log in</a></p>
-          </div>
-        </div>
+  <div class="split-container">
+    <div class="left-side">
+      <img src="images/background.gif" alt="Endless Vault" />
     </div>
+    <div class="right-side">
+      <div class="form-wrapper">
+        <h2>Create Your Account</h2>
+        <form id="signupForm">
+          <div class="form-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter your name" required />
+          </div>
+          <div class="form-field">
+            <label for="surname">Surname</label>
+            <input type="text" id="surname" placeholder="Enter your surname" required />
+          </div>
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required />
+          </div>
+          <div class="form-field">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password" required />
+          </div>
+          <div class="form-field">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="Re-enter password" required />
+          </div>
+          <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="/login.html">Log in</a></p>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        document.getElementById("signupForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
 
-            const name = document.getElementById("name").value;
-            const surname = document.getElementById("surname").value;
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirmPassword").value;
+      const name = document.getElementById("name").value;
+      const surname = document.getElementById("surname").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
 
-            const response = await fetch("/auth/signup", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, surname, email, password, confirmPassword })
-            });
+      const response = await fetch("/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, surname, email, password, confirmPassword })
+      });
 
-            const data = await response.json();
-            if (response.ok) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Account Created!',
-                    html: `Your account number is:<br><strong>${data.accountNumber}</strong>`,
-                }).then(() => {
-                    window.location.href = "/login.html";
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Sign Up Failed',
-                    text: 'Please try again',
-                });
-            }
+      const data = await response.json();
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Account Created!',
+          html: `Your account number is:<br><strong>${data.accountNumber}</strong>`,
+        }).then(() => {
+          window.location.href = "/login.html";
         });
-    </script>
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Sign Up Failed',
+          text: 'Please try again',
+        });
+      }
+    });
+  </script>
 </body>
+
 </html>

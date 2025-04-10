@@ -23,6 +23,7 @@ public class WebSecurityConfig {
                     "/auth/**", 
                 "/login.html", 
                 "/signup.html",
+                "/dashboard.html",
                 "/", 
                 "/static/**", 
                 "/css/**", 
