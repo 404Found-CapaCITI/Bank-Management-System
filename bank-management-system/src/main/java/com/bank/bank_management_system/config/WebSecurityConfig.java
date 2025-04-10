@@ -30,6 +30,16 @@ public class WebSecurityConfig {
                 "/images/**"
                 ).permitAll()
                 .anyRequest().authenticated()
+
+                .formLogin(form -> form
+                .loginPage("/login")
+                .defaultSuccessUrl("/dashboard", true)
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
             );
 
         return http.build();
