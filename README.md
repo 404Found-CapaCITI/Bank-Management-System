@@ -63,7 +63,7 @@ A full-stack **Bank Management System** developed as a group project. This appli
 
 You can access the live app here:
 
-👉 _Coming Soon!_
+👉 [Bank Management System](https://bank-management-system-z5b3.onrender.com)
 
 ## 👨🏽‍💻 Contributing Team
 
