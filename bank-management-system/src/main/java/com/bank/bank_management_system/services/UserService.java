@@ -1,21 +1,21 @@
 package com.bank.bank_management_system.services;
 
-import com.bank.bank_management_system.models.User;
-import com.bank.bank_management_system.repositories.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.ArrayList;
-
+import com.bank.bank_management_system.models.User;
+import com.bank.bank_management_system.repositories.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
-    
+
     @Autowired
     private UserRepository userRepository;
 
@@ -57,4 +57,7 @@ public class UserService implements UserDetailsService {
         );
     }
 
+    public Optional<User> findByAccountNumber(String accountNumber) {
+        return userRepository.findByAccountNumber(accountNumber);
+    }
 }
