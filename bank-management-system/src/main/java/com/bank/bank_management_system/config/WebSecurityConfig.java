@@ -26,6 +26,7 @@ public class WebSecurityConfig {
                                 "/dashboard",
                                 "/dashboard.html",
                                 "/user/info",
+                                "/api/**",
                                 "/",
                                 "/static/**",
                                 "/css/**",

@@ -9,8 +9,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.bank.bank_management_system.models.CurrentAccount;
 import com.bank.bank_management_system.models.User;
+import com.bank.bank_management_system.repositories.AccountRepository;
 import com.bank.bank_management_system.repositories.UserRepository;
 
 @Service
@@ -20,8 +23,12 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Transactional
     public User registerUser(User user, String confirmPassword) {
         if (!user.getPassword().equals(confirmPassword)) {
             throw new IllegalArgumentException("Passwords do not match");
@@ -31,7 +38,20 @@ public class UserService implements UserDetailsService {
         user.setAccountNumber(User.generateAccountNumber());
 
         user.setPassword(passwordEncoder.encode(user.getPassword())); // hash password
-        return userRepository.save(user);
+
+        // Save the user
+        User savedUser = userRepository.save(user);
+
+        // Create a new CurrentAccount for the new user
+        CurrentAccount currentAccount = new CurrentAccount(savedUser, 0.0);
+
+        // Persist the account in the accounts table
+        accountRepository.save(currentAccount);
+        accountRepository.flush(); // Force flush to DB
+
+        System.out.println("CurrentAccount saved for account number: " + savedUser.getAccountNumber());
+
+        return savedUser;
     }
 
     public Optional<User> loginUser(String accountNumber, String rawPassword) {

@@ -8,16 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bank.bank_management_system.models.User;
 import com.bank.bank_management_system.services.AccountService;
-import com.bank.bank_management_system.services.TransactionService;
 
 @Controller
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
-
-    @Autowired
-    private TransactionService transactionService;
 
     @PostMapping("/withdraw")
     public String withdraw(@RequestParam Long accountId,
