@@ -34,7 +34,7 @@ public class Transaction {
 
     private String description;
 
-    @Column(name = "transaction_date")
+    @Column(name = "transaction_date", columnDefinition = "timestamp without time zone")
     private LocalDateTime transactionDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
