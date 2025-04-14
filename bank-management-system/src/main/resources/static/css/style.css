@@ -70,17 +70,13 @@
             transform: translateY(-2px);
         }
 
-        .profile-icon {
+        .profile-icon img{
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--profile-color), var(--accent-color));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
