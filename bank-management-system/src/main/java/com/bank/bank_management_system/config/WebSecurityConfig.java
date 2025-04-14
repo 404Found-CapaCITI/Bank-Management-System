@@ -17,21 +17,22 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/auth/**", 
-                "/login.html", 
-                "/signup.html",
-                "/dashboard.html",
-                "/", 
-                "/static/**", 
-                "/css/**", 
-                "/js/**", 
-                "/images/**"
-                ).permitAll()
-                .anyRequest().authenticated()
-            );
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/auth/**",
+                                "/login.html",
+                                "/signup.html",
+                                "/dashboard",
+                                "/dashboard.html",
+                                "/user/info",
+                                "/",
+                                "/static/**",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**")
+                        .permitAll()
+                        .anyRequest().authenticated());
 
         return http.build();
     }
