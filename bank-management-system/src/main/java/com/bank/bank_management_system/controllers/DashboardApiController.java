@@ -142,7 +142,12 @@ public class DashboardApiController {
         try {
             // Create a new account for the same user that owns the current account.
             Account newAccount = accountService.createAccount(currentAccount.getUser(), accountType, initialDeposit);
-            return ResponseEntity.ok(Map.of("account", newAccount));
+            // It’s a good idea to return minimal data (avoid lazy associations)
+            Map<String, Object> responseData = Map.of(
+                    "id", newAccount.getId(),
+                    "accountNumber", newAccount.getAccountNumber(),
+                    "balance", newAccount.getBalance());
+            return ResponseEntity.ok(responseData);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Account creation failed: " + e.getMessage());
         }
